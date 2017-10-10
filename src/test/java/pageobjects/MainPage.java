@@ -44,6 +44,14 @@ public class MainPage extends BaseClass {
     private List<WebElement> matchList;
 
 
+    @FindBy(xpath = "//*[@id=\"details_accountId\"]")
+    private WebElement textUserID;
+
+    @FindBy(xpath = "//i[@class='icon-accountLI']")
+    private WebElement userIcon;
+
+
+
 
 
     public MainPage openHomePage( ) {
@@ -73,11 +81,11 @@ public class MainPage extends BaseClass {
         //wait until the logging process is finished
         WebDriverWait wait = new WebDriverWait(driver, 10);
         WebElement element = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.xpath("//i[@class='icon-accountLI']")));
+                ExpectedConditions.visibilityOf( userIcon));
         //open the account details popup
         accountTab.click();
         //get the logged usarname
-        String userID = driver.findElement(By.xpath("//*[@id=\"details_accountId\"]")).getText();
+        String userID = textUserID.getText();
         //check if the user is logged as the expected user
         userID.equals(accountID);
         //turn off the account details popup

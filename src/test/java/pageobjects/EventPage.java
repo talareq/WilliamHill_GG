@@ -39,18 +39,34 @@ public class EventPage extends BaseClass {
     @FindBy(xpath = "//span[@class='betslip-selection__estimated-returns-amount betslip-label--placeholder']")
     private WebElement toReturn;
 
+
+    @FindBy(xpath = "//i[@class='icon-accountLI']")
+    private WebElement userIcon;
+
+    @FindBy(xpath = "//*[@class='betslip-selection__name betslip-selection__name--single']")
+    private WebElement selectedODD;
+
+
+    @FindBy(xpath = "//span[@class='betslip-selection__estimated-returns-amount betslip-label--placeholder']")
+    private WebElement textToReturn;
+
+
+    @FindBy(xpath = "//*[@id='total-stake-price']")
+    private WebElement textToReturn1;
+
+
     public EventPage selectOdd() {
 
         //wait until page is fully loeaded
         WebDriverWait wait = new WebDriverWait(driver, 10);
         WebElement element = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.xpath("//i[@class='icon-accountLI']")));
+                ExpectedConditions.visibilityOf( userIcon));
         //select the odd for the home team to win
         oddList.get(0).click();
         String oddName = oddList.get(0).getText();
         //compare if selected odd is the same one which required
         String clearedselectedOdd = oddName.replace("Rep.", "");
-        String selectedOdd = driver.findElement(By.xpath("//*[@class='betslip-selection__name betslip-selection__name--single']")).getText();
+        String selectedOdd = selectedODD.getText();
         assertThat(selectedOdd, containsString(clearedselectedOdd));
         return new EventPage(driver);
     }
@@ -65,10 +81,10 @@ public class EventPage extends BaseClass {
     public EventPage checkBet(String bet) {
 
         //check if placed bet is correct
-        String toReturn = driver.findElement(By.xpath("//span[@class='betslip-selection__estimated-returns-amount betslip-label--placeholder']")).getText();
-        String toReturn1 = driver.findElement(By.xpath("//*[@id='total-to-return-price']")).getText();
+        String toReturn = textToReturn.getText();
+        String toReturn1 = textToReturn1.getText();
         toReturn.equals(toReturn1);
-        String totalStake = driver.findElement(By.xpath("//*[@id='total-stake-price']")).getText();
+        String totalStake = textToReturn1.getText();
         bet.equals(totalStake);
         return new EventPage(driver);
         }
